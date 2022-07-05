@@ -1,0 +1,11 @@
+.main-container{
+  margin-top: 0px;
+}
+
+.ui.card{
+  transition: all 0.3s;
+}
+  
+.ui.card:hover{
+  width: 95%
+}
