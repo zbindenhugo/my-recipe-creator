@@ -1,3 +1,28 @@
-.extra.content{
-    text-align: center;
+.navbar{
+    background-color: transparent;
+    backdrop-filter: blur(2px);
+}
+
+.nav-link{
+    color: lightslategrey;
+    transition: all 0.3s;
+}
+
+.nav-link:hover{
+    color: black;
+    transform: translateX(2px);
+}
+
+.nav-link.active {
+    color: lightcoral !important; /* Voir pour la pâte graphique */
+}
+
+.navbar-brand {
+    font-size: 50px;
+}
+
+#navbar-buttons{
+    background-color: transparent;
+    color: black;
+    border: 0px;
 }

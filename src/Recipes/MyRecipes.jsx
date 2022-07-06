@@ -1,22 +1,27 @@
-import './Recipes.css';
+import './MyRecipes.css';
 import React, { useEffect, useState } from 'react';
 import { Container, Grid } from 'semantic-ui-react';
-import axios from 'axios';
 import ModalRecipe from '../Modals/ModalRecipe';
 
 import { Card, Image, Icon, Button } from 'semantic-ui-react'
 
-function Recipes(){
+function Recipes({user}){
 
     const [recipes, setRecipes] = useState([]);
     const [modalVisible, toggleModalVisible] = useState(false);
     const [actualRecipe, setActualRecipe] = useState({});
 
     useEffect(() => {
-        axios.get('https://d9m3oxzlck.execute-api.us-east-2.amazonaws.com/get-recipes')
-        .then(res => {
-            setRecipes(res.data)
+        fetch('https://im01v2le77.execute-api.us-east-2.amazonaws.com/get-my-recipes', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({id: user[0]._id})
         })
+        .then(res => res.json())
+        .then(res => setRecipes(res));
     }, [recipes])
 
     const handleDetailClick = function (e) {

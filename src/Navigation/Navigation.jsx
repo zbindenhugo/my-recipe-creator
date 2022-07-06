@@ -1,66 +1,48 @@
 import './Navigation.css'
-import { Menu, Icon } from 'semantic-ui-react'
-import { Link } from 'react-router-dom';
-import { useState } from 'react';
 
+import { Navbar, Nav, Container, Button} from 'react-bootstrap';
+import { Link, useLocation } from 'react-router-dom';
 
-function Navigation ({isLoggedIn, closeLoginModal, loggedUser, handleDisconnectClick, disconnectUser, handleFormSubmit}) {
+function Navigation ({isLoggedIn, openCloseLoginModal, loggedUser, handleDisconnectClick, handleFormSubmit}) {
 
-  const [activeItem, setActiveItem] = useState('home');
-
-  const handleClickMenu = (e, {name}) => {
-    setActiveItem(name);
-  }
+  const location = useLocation();
 
   return (
-    <>
-      <Menu secondary pointing>
-        <Menu.Item header>Mon créateur de recette</Menu.Item>
-        <Menu.Item
-          name='home'
-          as={Link}
-          to='/'
-          active={activeItem === 'home'}
-          onClick={handleClickMenu}
-        >Accueil</Menu.Item>
-        <Menu.Item
-          name='recipes'
-          as={Link}
-          to='/recipes'
-          active={activeItem === 'recipes'}
-          onClick={handleClickMenu}
-        >Mes recettes</Menu.Item>
-        <Menu.Item
-          name='createrecipe'
-          as={Link}
-          to='/recipes/createmyrecipes'
-          active={activeItem === 'createrecipe'}
-          onClick={handleClickMenu}
-        >Créer une recette</Menu.Item>
-        
-        <Menu.Menu position='right' icon='labeled'>
-          {
-             isLoggedIn ?
-             <Menu.Item>
-                <p>Bienvenue, <strong>{loggedUser[0].first_name} {loggedUser[0].last_name}</strong></p>
-             </Menu.Item> :
-             null
-          }
-          {
-            isLoggedIn ? 
-            <Menu.Item as='a' onClick={handleDisconnectClick}>
-              <Icon name='sign out'/> 
-              {' '}<p>Se déconnecter</p>
-            </Menu.Item> : 
-            <Menu.Item as='a' onClick={closeLoginModal}>
-              <Icon name='sign in'/>
-              {' '}Se connecter
-            </Menu.Item>
-          }
-          
-        </Menu.Menu>
-      </Menu>
-    </>
+    <Container fluid>
+      <Navbar sticky='top'>
+        <Container fluid id='navbar-container'>
+          <Navbar.Brand>Crecipe</Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="me-auto">
+              <Nav.Link as={Link} to='/' active={location.pathname === '/' ? true : false}>Accueil</Nav.Link>
+              <Nav.Link as={Link} to='/recipes' active={location.pathname === '/recipes' ? true : false}>Toutes les recettes</Nav.Link>
+              <Nav.Link as={Link} to='/recipes/myrecipes' active={location.pathname === '/recipes/myrecipes' ? true : false}>Mes recettes</Nav.Link>
+              <Nav.Link as={Link} to='/recipes/createmyrepice' active={location.pathname === '/recipes/createmyrepice' ? true : false}>Créer une recette</Nav.Link>
+            </Nav>
+            <Navbar.Collapse className="justify-content-end">
+              <Navbar.Text>
+                {
+                  !isLoggedIn ? 
+                  <Button id='navbar-buttons' onClick={openCloseLoginModal}>
+                    <img src='https://cdn-icons-png.flaticon.com/512/1388/1388906.png' width={25} height={25} alt='connecticon'/> 
+                    {' Connexion'}
+                  </Button> :
+                  <>
+                    {loggedUser[0].first_name} {loggedUser[0].last_name}
+                    <Button id='navbar-buttons' onClick={handleDisconnectClick}>
+                      <img src='https://cdn-icons-png.flaticon.com/512/1828/1828479.png' width={25} height={25} alt='deconnecticon'/> 
+                      
+                      {' Déconnexion'}
+                    </Button>
+                  </>
+                }
+              </Navbar.Text>
+            </Navbar.Collapse>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
+    </Container>
   )
 }
 

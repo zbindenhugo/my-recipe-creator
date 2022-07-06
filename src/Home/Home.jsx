@@ -1,15 +1,18 @@
 import './Home.css'
-import { Container, Header, Icon } from "semantic-ui-react";
 
 function Home () {
-    return <Container textAlign="center" className="main-container">
-        <Header as='h2' icon>
-            <Icon name='file alternate outline' circular />
-            <Header.Content>Mon créateur de recettes</Header.Content>
-            <Header sub>Application web permettant de créer vos propres recettes</Header>
-        </Header>
-        
-    </Container>
+    /*return (
+        <>
+            <Container style={{textAlign: 'center'}}>
+                <Typography variant="h2" gutterBottom component="div">
+                    Mon créateur de recette
+                </Typography>
+                <Typography variant="subtitle1" gutterBottom component="div">
+                    Application web permettant de créer vos propres recettes. <br /> Fini le papier, fini de demander à votre mère la recette, créez la, et gardez la pour toujours !
+                </Typography>
+            </Container>
+        </>
+    )*/
 }
 
 export default Home;
