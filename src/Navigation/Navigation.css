@@ -9,7 +9,7 @@
 }
 
 .nav-link:hover{
-    color: black;
+    color: lightcoral !important;
     transform: translateX(2px);
 }
 
