@@ -5,11 +5,13 @@ import 'react-toastify/dist/ReactToastify.css';
 import Navigation from './Navigation/Navigation';
 import { Route, Routes } from 'react-router-dom';
 //import CreateRecipes from './CreateRecipes/CreateRecipes';
+import AllRecipes from './Recipes/AllRecipes';
 import Home from './Home/Home'
 import { useEffect, useState } from 'react';
-//import ModalLoginUser from './Modals/ModalLoginUser';
-//import ModalDisconnectUser from './Modals/ModalDiconnectUser';
+import ModalLoginUser from './Modals/ModalLoginUser';
+import ModalDisconnectUser from './Modals/ModalDiconnectUser';
 import { toast } from 'react-toastify';
+import Footer from './Navigation/Footer';
 
 
 function App() {
@@ -17,7 +19,7 @@ function App() {
   const [isModalVisible, toggleModalVisible] = useState(false);
   const [user, setUser] = useState([]);
   const [isLoggedIn, toggleIsLoggedIn]= useState(false);
-  const [login, setLogin] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isDiscModalVisible, toggleDiscModalVisible] = useState(false);
 
@@ -27,7 +29,7 @@ function App() {
       toggleModalVisible(false);
 
       /* Clear form Values */
-      setLogin('');
+      setEmail('');
       setPassword('');
 
       /* Show that we are connected */
@@ -35,8 +37,8 @@ function App() {
     }
   }, [user, isModalVisible])
 
-  const handleLogin = (e) =>{
-    setLogin(e.target.value)
+  const handleEmail = (e) =>{
+    setEmail(e.target.value)
   }
 
   const handlePwd = (e) =>{
@@ -59,11 +61,14 @@ function App() {
     toggleIsLoggedIn(false);
 
     /* redirect to home */
-    window.location.href = "/";
+    if(window.location.pathname !== '/')
+      window.location.href = "/";
   }
 
   const handleErrorLogin = () => {
-    toast.error("Login ou mot de passe incorrect");
+    toast.error('E-mail ou mot de passe incorrect, veuillez réessayer.', {
+      position: 'top-center'
+    });
     setPassword('');
   }
 
@@ -75,10 +80,17 @@ function App() {
           'Accept': 'application/json, text/plain, */*',
           'Content-Type': 'application/json'
       },
-      body: JSON.stringify({login: login, pwd: password})
+      body: JSON.stringify({email: email, pwd: password})
     })
     .then((res) => res.json())
     .then((res) => setUser(res))
+    .then(() => {
+      if(user.length >= 1){
+        toggleModalVisible(false);
+      } else {
+        handleErrorLogin()
+      }
+    })
   }
 
   return (
@@ -91,43 +103,30 @@ function App() {
       />
       <Routes>
             <Route path='/' element={<Home />} />
-            {/*<Route path='/recipes' element={<Recipes user={user}/>} />
-            <Route path='/recipes/createmyrecipes' element={<CreateRecipes user={user} />} />*/}
+            <Route path='/recipes' element={<AllRecipes/>} />
+            {/*<Route path='/recipes/:id' element={<RecipeViewer />} />*/}
+            {/*<Route path='/recipes/createmyrecipes' element={<CreateRecipes user={user} />} />*/}
       </Routes>
-      {/*
+      {
         isModalVisible ? <ModalLoginUser 
           modalVisible={isModalVisible} 
           closeModalVisibility={handleOpenCloseModal} 
-          login={login}
+          login={email}
           pwd={password}
-          onChangeLogin={handleLogin}
+          onChangeEmail={handleEmail}
           onChangePwd={handlePwd}
-          connectUser={connectUser} /> : null*/
+          connectUser={connectUser} /> : null
       }
       {
-        /*isLoggedIn ? <ModalDisconnectUser 
+        isLoggedIn ? <ModalDisconnectUser 
           modalVisible={isDiscModalVisible} 
           toggleModalVisible={handleDisconnectClick} 
           disconnectUser={disconnectUser} 
-         /> : null*/
+         /> : null
       }
+      <Footer />
     </>
   )
-  /*return (
-      <>
-        <Navigation 
-            closeLoginModal={handleOpenCloseModal}
-            handleDisconnectClick={handleDisconnectClick} 
-            loggedUser={user} 
-            isLoggedIn={isLoggedIn} />
-        <Routes>
-          <Route path='/' element={<Home />} />
-          {<Route path='/recipes' element={<Recipes user={user}/>} />
-          <Route path='/recipes/createmyrecipes' element={<CreateRecipes user={user} />} />}
-        </Routes>
-        
-    </>
-  )*/
 }
 
 export default App;

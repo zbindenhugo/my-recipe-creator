@@ -8,11 +8,10 @@ function Navigation ({isLoggedIn, openCloseLoginModal, loggedUser, handleDisconn
   const location = useLocation();
 
   return (
-    <Container fluid>
-      <Navbar sticky='top'>
+      <Navbar sticky='top' expand='lg'>
         <Container fluid id='navbar-container'>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
+          <Navbar.Collapse id="basic-navbar-nav" b>
             <Nav className="me-auto">
               <Nav.Link as={Link} to='/' active={location.pathname === '/' ? true : false}>
                   Accueil
@@ -53,7 +52,6 @@ function Navigation ({isLoggedIn, openCloseLoginModal, loggedUser, handleDisconn
           </Navbar.Collapse>
         </Container>
       </Navbar>
-    </Container>
   )
 }
 

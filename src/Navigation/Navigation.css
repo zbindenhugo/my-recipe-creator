@@ -6,6 +6,7 @@
 .nav-link{
     color: lightslategrey;
     transition: all 0.3s;
+    font-size: large;
 }
 
 .nav-link:hover{

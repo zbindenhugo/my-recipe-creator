@@ -1,4 +1,4 @@
-import {Modal, Button, Icon, Header} from 'semantic-ui-react';
+import {Modal, Button} from 'react-bootstrap';
 
 function ModalDisconnectUser({modalVisible, toggleModalVisible, disconnectUser, handleFormSubmit}){
 
@@ -9,29 +9,23 @@ function ModalDisconnectUser({modalVisible, toggleModalVisible, disconnectUser, 
 
     return (
         <Modal
-            basic
-            onClose={toggleModalVisible}
-            open={modalVisible}
-            size='small'
+            onHide={toggleModalVisible}
+            show={modalVisible}
             style={{textAlign: 'center'}}
             >
-            <Header icon>
-                <Icon name='archive' />
-                Deconnexion
-            </Header>
-            <Modal.Content>
+            <Modal.Body>
                 <p>
                 Êtes-vous sûr de vouloir vous déconnecter ? 
                 </p>
-            </Modal.Content>
-            <Modal.Actions>
-                <Button basic color='red' inverted onClick={toggleModalVisible}>
-                    <Icon name='remove' /> Non
+            </Modal.Body>
+            <Modal.Footer>
+                <Button variant='outline-danger' onClick={toggleModalVisible}>
+                   Annuler
                 </Button>
-                <Button color='green' inverted onClick={handleConfirm}>
-                    <Icon name='checkmark' /> Oui
+                <Button variant='outline-success' onClick={handleConfirm}>
+                    Oui
                 </Button>
-            </Modal.Actions>
+            </Modal.Footer>
         </Modal>
     )
 }
