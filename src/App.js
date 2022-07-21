@@ -1,6 +1,8 @@
 import './App.css';
 import 'react-toastify/dist/ReactToastify.css';
 
+import bcryptjs from 'bcryptjs';
+
 //import Recipes from './Recipes/MyRecipes';
 import Navigation from './Navigation/Navigation';
 import { Route, Routes } from 'react-router-dom';
@@ -19,8 +21,17 @@ function App() {
   const [isModalVisible, toggleModalVisible] = useState(false);
   const [user, setUser] = useState([]);
   const [isLoggedIn, toggleIsLoggedIn]= useState(false);
+
+  /* FOR THE CONNECT USER MODAL */
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  /* FOR THE NEW USER MODAL  */
+  const [newLastname, setNewLastname] = useState('');
+  const [newFirstname, setNewFirstname] = useState('');
+  const [newEmail, setNewEmail] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [pwdConfirm, setPwdConfirm] = useState('');
   const [isDiscModalVisible, toggleDiscModalVisible] = useState(false);
 
   useEffect(() => {
@@ -36,6 +47,26 @@ function App() {
       toggleIsLoggedIn(true);
     }
   }, [user, isModalVisible])
+
+  const handleNewFirstname = (e) =>{
+    setNewFirstname(e.target.value)
+  }
+
+  const handleNewLastname = (e) =>{
+    setNewLastname(e.target.value)
+  }
+
+  const handleNewEmail = (e) =>{
+    setNewEmail(e.target.value)
+  }
+
+  const handleNewPassword = (e) =>{
+    setNewPassword(e.target.value)
+  }
+
+  const handlePasswordConfirm = (e) =>{
+    setPwdConfirm(e.target.value)
+  }
 
   const handleEmail = (e) =>{
     setEmail(e.target.value)
@@ -74,7 +105,7 @@ function App() {
 
   const connectUser = (e) =>{
     e.preventDefault()
-    fetch('https://x12wp3hf39.execute-api.us-east-2.amazonaws.com/log-user', {
+    fetch('http://localhost:3001/log-user', {
       method: 'POST',
       headers: {
           'Accept': 'application/json, text/plain, */*',
@@ -83,12 +114,81 @@ function App() {
       body: JSON.stringify({email: email, pwd: password})
     })
     .then((res) => res.json())
-    .then((res) => setUser(res))
+    .then((res) => {
+      setUser(res)
+    })
     .then(() => {
       if(user.length >= 1){
         toggleModalVisible(false);
       } else {
-        handleErrorLogin()
+        handleErrorLogin();
+      }
+    })
+  }
+
+  const createNewUser = (e) => {
+    e.preventDefault()
+
+    if(newPassword !== pwdConfirm){
+      toast.error('Vos 2 mots de passe ne sont pas pareils !', {position: 'top-center'});
+      setPwdConfirm('');
+      return false;
+    }
+
+    var encryptedPwd = '';
+    // Encryption of the string password
+    bcryptjs.genSalt(10, function (err, Salt) {
+  
+  // The bcrypt is used for encrypting password.
+  bcryptjs.hash(newPassword, Salt, function (err, hash) {
+
+
+      alert(newPassword);
+      if (err) {
+          return console.log('Cannot encrypt');
+      }
+
+      encryptedPwd = hash;
+      console.log(hash);
+
+      bcryptjs.compare(newPassword, encryptedPwd, 
+          async function (err, isMatch) {
+
+          // Comparing the original password to
+          // encrypted password   
+          if (isMatch) {
+            alert('Encrypted password is: ', encryptedPwd);
+            alert('Decrypted password is: ', newPassword);
+          }
+
+          if (!isMatch) {
+            
+              // If password doesn't match the following
+              // message will be sent
+              console.log(encryptedPwd + ' is not encryption of ' 
+              + newPassword);
+          }
+      })
+  })
+})
+
+    alert(encryptedPwd);
+
+    fetch('http://localhost:3001/create-user', {
+      method: 'POST',
+      headers: {
+          'Accept': 'application/json, text/plain, */*',
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({firstname: newFirstname, lastname: newLastname, email: newEmail, password: encryptedPwd})
+    })
+    .then((res) => res.json())
+    .then((res) => {
+      if(res.length = 0){
+        toggleModalVisible(false);
+        toast.success('Création de compte terminée avec succès !')
+      } else {
+        handleErrorLogin();
       }
     })
   }
@@ -111,11 +211,22 @@ function App() {
         isModalVisible ? <ModalLoginUser 
           modalVisible={isModalVisible} 
           closeModalVisibility={handleOpenCloseModal} 
+          newFirstname={newFirstname}
+          newLastname={newLastname}
+          newEmail={newEmail}
+          newPassword={newPassword}
+          pwdConfirm={pwdConfirm}
+          onChangeNewFirstname={handleNewFirstname}
+          onChangeNewLastname={handleNewLastname}
+          onChangeNewEmail={handleNewEmail}
+          onChangeNewPassword={handleNewPassword}
+          onChangePwdConfirm={handlePasswordConfirm}
           login={email}
           pwd={password}
           onChangeEmail={handleEmail}
           onChangePwd={handlePwd}
-          connectUser={connectUser} /> : null
+          connectUser={connectUser}
+          createNewUser={createNewUser} /> : null
       }
       {
         isLoggedIn ? <ModalDisconnectUser 

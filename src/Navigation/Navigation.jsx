@@ -40,7 +40,7 @@ function Navigation ({isLoggedIn, openCloseLoginModal, loggedUser, handleDisconn
                     {' Connexion'}
                   </Button> :
                   <>
-                    {loggedUser[0].first_name} {loggedUser[0].last_name}
+                    {loggedUser[0].firstname} {loggedUser[0].lastname}
                     <Button id='navbar-buttons' onClick={handleDisconnectClick}>
                       <img src='https://cdn-icons-png.flaticon.com/512/1828/1828479.png' width={25} height={25} alt='deconnecticon'/> 
                       {' Déconnexion'}

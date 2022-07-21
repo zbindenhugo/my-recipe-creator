@@ -3,9 +3,9 @@ import './ModalLoginUser.css';
 import {Modal, Button, Form, Row, Col, Container, Tabs, Tab, Divider} from 'react-bootstrap';
 import { ToastContainer } from 'react-toastify';
 
-function ModalLoginUser ({modalVisible, closeModalVisibility, email, pwd, onChangeEmail, onChangePwd, connectUser}) {
+function ModalLoginUser (props) {
     return (
-        <Modal show={modalVisible} onHide={closeModalVisibility} size='lg' centered>
+        <Modal show={props.modalVisible} onHide={props.closeModalVisibility} size='lg' centered>
             <Container style={{marginTop: 15, marginBottom: 15}} fluid>
                 <Tabs
                     defaultActiveKey="connect"
@@ -24,15 +24,15 @@ function ModalLoginUser ({modalVisible, closeModalVisibility, email, pwd, onChan
                                 <Col md={1} />
                             </Row>
                             <Row>
-                                <Form onSubmit={connectUser}>
+                                <Form onSubmit={props.connectUser}>
                                     <Form.Group className="mb-3" controlId="formBasicEmail">
                                         <Form.Label>Adresse e-mail</Form.Label>
-                                        <Form.Control type="email" placeholder="Renseignez votre adresse e-mail" value={email} onChange={onChangeEmail} required/>
+                                        <Form.Control type="email" placeholder="Renseignez votre adresse e-mail" value={props.email} onChange={props.onChangeEmail} required/>
                                     </Form.Group>
 
                                     <Form.Group className="mb-3" controlId="formBasicPassword">
                                         <Form.Label>Mot de passe</Form.Label>
-                                        <Form.Control type="password" placeholder="Renseignez votre mot de passe" value={pwd} onChange={onChangePwd} required/>
+                                        <Form.Control type="password" placeholder="Renseignez votre mot de passe" value={props.pwd} onChange={props.onChangePwd} required/>
                                     </Form.Group>
 
                                     <Button type="submit" variant='outline-success'>Se connecter</Button>
@@ -53,33 +53,33 @@ function ModalLoginUser ({modalVisible, closeModalVisibility, email, pwd, onChan
                             <Row>
                                 <Col md={1} />
                                 <Col>
-                                    <Form onSubmit={connectUser}>
+                                    <Form onSubmit={props.createNewUser}>
                                         <Row className="mb-3">
-                                            <Form.Group as={Col} controlId="formBasicEmail">
+                                            <Form.Group as={Col} controlId="formBasicLastname">
                                                 <Form.Label>Nom</Form.Label>
-                                                <Form.Control type="text" placeholder="Renseignez votre nom" required/>
+                                                <Form.Control value={props.newLastname} onChange={props.onChangeNewLastname} type="text" placeholder="Renseignez votre nom" required/>
                                             </Form.Group>
 
-                                            <Form.Group  as={Col} controlId="formBasicPassword">
+                                            <Form.Group  as={Col} controlId="formBasicFirstname">
                                                 <Form.Label>Prénom</Form.Label>
-                                                <Form.Control type="text" placeholder="Renseignez votre prénom" required/>
+                                                <Form.Control value={props.newFirstname} onChange={props.onChangeNewFirstname} type="text" placeholder="Renseignez votre prénom" required/>
                                             </Form.Group>
                                         </Row>
                                         <Row className="mb-3">
-                                            <Form.Group className="mb-3" controlId="formBasicEmail">
+                                            <Form.Group className="mb-3" controlId="formBasicNewEmail">
                                                 <Form.Label>Adresse e-mail</Form.Label>
-                                                <Form.Control type="email" placeholder="Renseignez votre adresse e-mail" value={email} onChange={onChangeEmail} required/>
+                                                <Form.Control type="email" placeholder="Renseignez votre adresse e-mail" value={props.newEmail} onChange={props.onChangeNewEmail} required/>
                                             </Form.Group>
                                         </Row>
                                         <Row className="mb-3">
-                                            <Form.Group as={Col} className="mb-3" controlId="formBasicEmail">
+                                            <Form.Group as={Col} className="mb-3" controlId="formBasicNewPassword">
                                                 <Form.Label>Mot de passe</Form.Label>
-                                                <Form.Control type="password" placeholder="Renseignez votre mot de passe" value={email} onChange={onChangeEmail} required/>
+                                                <Form.Control type="password" placeholder="Renseignez votre mot de passe" value={props.newPassword} onChange={props.onChangeNewPassword} required/>
                                             </Form.Group>
 
-                                            <Form.Group as={Col} className="mb-3" controlId="formBasicEmail">
+                                            <Form.Group as={Col} className="mb-3" controlId="formBasicPwdConfirm">
                                                 <Form.Label>Confirmez votre mot de passe</Form.Label>
-                                                <Form.Control type="password" placeholder="Confirmez votre mot de passe" value={email} onChange={onChangeEmail} required/>
+                                                <Form.Control type="password" placeholder="Confirmez votre mot de passe" value={props.pwdConfirm} onChange={props.onChangePwdConfirm} required/>
                                             </Form.Group>
                                         </Row>
 
@@ -92,26 +92,6 @@ function ModalLoginUser ({modalVisible, closeModalVisibility, email, pwd, onChan
                     </Tab>
                 </Tabs>
             </Container>
-        {/*<Modal.Header closeButton>
-          <Modal.Title>Connexion utilisateur</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-            <Container fluid>
-                <Row>
-                    <Col>
-                        
-                    </Col>
-                    <Col style={{textAlign: 'center'}} md={1}>
-                         <div className='vr' style={{height: '30px'}} />
-                         
-                         <div className='vr' style={{height: '30px'}} />
-                    </Col>
-                    <Col>
-
-                    </Col>
-                </Row>
-            </Container>
-        </Modal.Body>*/}
 
         <ToastContainer />
       </Modal>

@@ -1,6 +1,9 @@
 body{
     font-family: 'Montserrat';
-    background-color: RGB(255,250,250);
+    background-color: #fddbcb1c;
+    background-image: url("../public/background.png");
+    background-size: 1920px 750px;
+    background-repeat: no-repeat;
 }
 
 html {

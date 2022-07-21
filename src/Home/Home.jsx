@@ -28,7 +28,7 @@ function Home () {
                         <p>(Plûtot cool non ?)</p>
                     </Col>
                     <Col>
-                        <p className='home-simpletext'>Je suis un jeune web développeur, qui, pour se perfectionner voulais avoir un projet concret.</p>
+                        <p className='home-simpletext'>Je suis un jeune développeur web, qui, pour se perfectionner voulais avoir un projet concret.</p>
                         <p className='home-simpletext'>J'adore également cuisiner, mais je ne note jamais mes recettes... c'est un jour où je demandais une recette à ma mère que l'idée m'est venu !</p>
                         <p className='home-simpletext'>C'est un jour où je demandais une recette à ma mère que l'idée m'est venu !</p>
                         <figcaption className='blockquote-footer'>
