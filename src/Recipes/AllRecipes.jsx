@@ -1,7 +1,7 @@
 import './AllRecipes.css';
 
 import { useState, useEffect } from 'react';
-import { Spinner, Row, Container, Col, } from 'react-bootstrap'
+import { Spinner, Row, Container, Col, Card, Button } from 'react-bootstrap'
 
 function AllRecipes () {
 
@@ -11,13 +11,20 @@ function AllRecipes () {
     const nbRows = recipes.length / 5;
 
     useEffect(() => {
-        fetch('https://bu8aednpzj.execute-api.us-east-2.amazonaws.com/get-all-recipes',{
+        fetch('http://localhost:3001/get-all-recipes',{
             method: 'GET'
         })
         .then((res) => res.json())
         .then((res) => setRecipes(res))
         .then(() => toggleLoadingData(false));
     },[])
+
+    function arrayBufferToBase64(buffer) {
+        var binary = '';
+        var bytes = [].slice.call(new Uint8Array(buffer));
+        bytes.forEach((b) => binary += String.fromCharCode(b));
+        return window.btoa(binary);
+    };
 
     return(
         !loadingData ?
@@ -29,11 +36,47 @@ function AllRecipes () {
                     </Container> 
                 </Row>
                 {
-                    addRows(nbRows, recipes)
+                    recipes.length === 0 ? 
+                        <div style={{marginTop: '300px'}}>                        
+                            <p className='lead' style={{fontWeight: 'bold', fontSize: '30px'}}>
+                                Il n'y pas encore de recette sur le site ... Créer un compte puis soyez le premier à créer une recette ! 
+                            </p> 
+                        </div>
+                    :   
+                    <Container className='recipes' fluid>
+                        {
+                            recipes.map((recipe) => {
+                                var imgStr = arrayBufferToBase64(recipe.image.data);
+                                var base64prefix = 'data:image/png;base64,';
+ 
+                                return(
+                                    <Card key={recipe.id} style={{ width: '20rem'}}>
+                                        <Card.Body>
+                                            <Card.Img variant="top" src={base64prefix + imgStr} />
+                                            <hr />
+                                            <Card.Title as="h3">{recipe.title}</Card.Title>
+                                            <Card.Subtitle>Pour {recipe.quantity} pers.</Card.Subtitle>
+                                            <hr />
+                                            <Card.Text>
+                                                {recipe.description}
+                                            </Card.Text>
+                                        </Card.Body>
+                                        <Card.Footer>
+                                            <Button variant='outline-dark'>
+                                                Voir la recette !
+                                            </Button>
+                                        </Card.Footer>
+                                    </Card>
+                                )
+                                }
+                            )
+                        }   
+
+                    </Container>
+                    
                 }   
             </Container> 
             :
-
             <Container fluid className='main-container' style={{textAlign: 'center'}}>
                 <Row>
                     <Container style={{textAlign: 'center'}}>

@@ -1,0 +1,6 @@
+.recipes{
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(245px,1fr));
+    grid-gap: calc(4 * var(--space));
+    grid-auto-flow: dense;
+}

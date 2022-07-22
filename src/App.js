@@ -1,7 +1,7 @@
 import './App.css';
 import 'react-toastify/dist/ReactToastify.css';
 
-import bcryptjs from 'bcryptjs';
+import { Base64 } from 'js-base64';
 
 //import Recipes from './Recipes/MyRecipes';
 import Navigation from './Navigation/Navigation';
@@ -14,7 +14,6 @@ import ModalLoginUser from './Modals/ModalLoginUser';
 import ModalDisconnectUser from './Modals/ModalDiconnectUser';
 import { toast } from 'react-toastify';
 import Footer from './Navigation/Footer';
-
 
 function App() {
 
@@ -104,14 +103,17 @@ function App() {
   }
 
   const connectUser = (e) =>{
-    e.preventDefault()
+    e.preventDefault();
+
+    const encryptedPwd = Base64.encode(password);
+
     fetch('http://localhost:3001/log-user', {
       method: 'POST',
       headers: {
           'Accept': 'application/json, text/plain, */*',
           'Content-Type': 'application/json'
       },
-      body: JSON.stringify({email: email, pwd: password})
+      body: JSON.stringify({email: email, pwd: encryptedPwd})
     })
     .then((res) => res.json())
     .then((res) => {
@@ -130,67 +132,44 @@ function App() {
     e.preventDefault()
 
     if(newPassword !== pwdConfirm){
-      toast.error('Vos 2 mots de passe ne sont pas pareils !', {position: 'top-center'});
+      toast.error('Vos 2 mots de passe ne sont pas égaux.', {position: 'top-center'});
       setPwdConfirm('');
       return false;
     }
 
-    var encryptedPwd = '';
-    // Encryption of the string password
-    bcryptjs.genSalt(10, function (err, Salt) {
-  
-  // The bcrypt is used for encrypting password.
-  bcryptjs.hash(newPassword, Salt, function (err, hash) {
-
-
-      alert(newPassword);
-      if (err) {
-          return console.log('Cannot encrypt');
-      }
-
-      encryptedPwd = hash;
-      console.log(hash);
-
-      bcryptjs.compare(newPassword, encryptedPwd, 
-          async function (err, isMatch) {
-
-          // Comparing the original password to
-          // encrypted password   
-          if (isMatch) {
-            alert('Encrypted password is: ', encryptedPwd);
-            alert('Decrypted password is: ', newPassword);
-          }
-
-          if (!isMatch) {
-            
-              // If password doesn't match the following
-              // message will be sent
-              console.log(encryptedPwd + ' is not encryption of ' 
-              + newPassword);
-          }
-      })
-  })
-})
-
-    alert(encryptedPwd);
+    const encryptedPwd = Base64.encode(newPassword);
 
     fetch('http://localhost:3001/create-user', {
       method: 'POST',
       headers: {
-          'Accept': 'application/json, text/plain, */*',
-          'Content-Type': 'application/json'
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
       },
-      body: JSON.stringify({firstname: newFirstname, lastname: newLastname, email: newEmail, password: encryptedPwd})
+      body: JSON.stringify({firstname: newFirstname, lastname: newLastname, email: newEmail, pwd: encryptedPwd})  
     })
     .then((res) => res.json())
     .then((res) => {
-      if(res.length = 0){
-        toggleModalVisible(false);
-        toast.success('Création de compte terminée avec succès !')
-      } else {
-        handleErrorLogin();
+
+      if(JSON.stringify(res).charAt(0) === '['){
+        if(res.length === 0){
+          toast.success('Création de compte terminée !', {position: 'top-center'});
+          resetFormCreate();
+          if(window.location.pathname !== '/' && window.location.pathname !== '/recipes')
+            window.location.href = "/";
+        }
+      } else if (JSON.stringify(res).charAt(0) === '{'){
+        if(res.ERR !== '')
+          toast.error(res.ERR, {position: 'top-center'});
       }
     })
+  }
+
+  const resetFormCreate = () => {
+    setNewEmail('');
+    setNewPassword('');
+    setPwdConfirm('');
+    setNewFirstname('');
+    setNewLastname('');
   }
 
   return (
