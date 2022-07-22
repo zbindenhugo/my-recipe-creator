@@ -107,7 +107,7 @@ function App() {
 
     const encryptedPwd = Base64.encode(password);
 
-    fetch('http://localhost:3001/log-user', {
+    fetch('https://crecipe-api.herokuapp.com/log-user', {
       method: 'POST',
       headers: {
           'Accept': 'application/json, text/plain, */*',
@@ -139,7 +139,7 @@ function App() {
 
     const encryptedPwd = Base64.encode(newPassword);
 
-    fetch('http://localhost:3001/create-user', {
+    fetch('https://crecipe-api.herokuapp.com/create-user', {
       method: 'POST',
       headers: {
         'Accept': 'application/json, text/plain, */*',

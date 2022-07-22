@@ -11,7 +11,7 @@ function AllRecipes () {
     const nbRows = recipes.length / 5;
 
     useEffect(() => {
-        fetch('http://localhost:3001/get-all-recipes',{
+        fetch('https://crecipe-api.herokuapp.com/get-all-recipes',{
             method: 'GET'
         })
         .then((res) => res.json())
@@ -60,6 +60,7 @@ function AllRecipes () {
                                             <Card.Text>
                                                 {recipe.description}
                                             </Card.Text>
+                                            <p><small>Écrit par : {recipe.lastname} {recipe.firstname}</small></p>
                                         </Card.Body>
                                         <Card.Footer>
                                             <Button variant='outline-dark'>
