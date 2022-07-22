@@ -87,7 +87,7 @@ function AllRecipes () {
                 </Row>
                 <Row>
                     <Col/>
-                    <Col>
+                    <Col style={{marginTop: 150}}>
                         <Spinner animation="border" /> {' Chargement ...'}
                     </Col>
                     <Col/>
