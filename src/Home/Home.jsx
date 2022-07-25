@@ -3,7 +3,7 @@ import './Home.css'
 
 function Home () {
     return (
-        <Container fluid style={{textAlign: 'center'}}>
+        <Container fluid style={{textAlign: 'center'}} id='home-container'>
             <Container>
                 <h1 className="display-1 animate__animated animate__backInRight">CRECIPE</h1>
                 <small className='text-muted lead animate__animated animate__fadeIn animate__delay-1s'>Votre créateur de recette en ligne. Moins de papier, plus d'imagination !</small>

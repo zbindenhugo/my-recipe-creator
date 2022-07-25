@@ -3,15 +3,15 @@ import './Navigation.css'
 import { Navbar, Nav, Container, Button} from 'react-bootstrap';
 import { Link, useLocation } from 'react-router-dom';
 
-function Navigation ({isLoggedIn, openCloseLoginModal, loggedUser, handleDisconnectClick, handleFormSubmit}) {
+function Navigation ({isLoggedIn, openCloseLoginModal, loggedUser, handleDisconnectClick}) {
 
   const location = useLocation();
 
   return (
-      <Navbar sticky='top' expand='lg'>
+      <Navbar sticky='top'>
         <Container fluid id='navbar-container'>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav" b>
+          <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
               <Nav.Link as={Link} to='/' active={location.pathname === '/' ? true : false}>
                   Accueil

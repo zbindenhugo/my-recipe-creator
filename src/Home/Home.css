@@ -5,3 +5,7 @@
 .home-simpletext{
     font-size: 20px;
 }
+
+#home-container{
+    height: 85vh;
+}

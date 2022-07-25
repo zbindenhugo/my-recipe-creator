@@ -3,7 +3,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { Base64 } from 'js-base64';
 
-//import Recipes from './Recipes/MyRecipes';
+import MyRecipes from './Recipes/MyRecipes';
 import Navigation from './Navigation/Navigation';
 import { Route, Routes } from 'react-router-dom';
 //import CreateRecipes from './CreateRecipes/CreateRecipes';
@@ -14,6 +14,7 @@ import ModalLoginUser from './Modals/ModalLoginUser';
 import ModalDisconnectUser from './Modals/ModalDiconnectUser';
 import { toast } from 'react-toastify';
 import Footer from './Navigation/Footer';
+import RecipeViewer from './Recipes/RecipeViewer';
 
 function App() {
 
@@ -122,9 +123,12 @@ function App() {
     .then(() => {
       if(user.length >= 1){
         toggleModalVisible(false);
+
       } else {
         handleErrorLogin();
       }
+      
+
     })
   }
 
@@ -183,9 +187,12 @@ function App() {
       <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/recipes' element={<AllRecipes/>} />
-            {/*<Route path='/recipes/:id' element={<RecipeViewer />} />*/}
+            <Route path='/recipes/:id' element={<RecipeViewer />} />
+            <Route path='/recipes/myrecipes' element={<MyRecipes user={user} />} />
             {/*<Route path='/recipes/createmyrecipes' element={<CreateRecipes user={user} />} />*/}
+            
       </Routes>
+      <Footer />
       {
         isModalVisible ? <ModalLoginUser 
           modalVisible={isModalVisible} 
@@ -214,7 +221,7 @@ function App() {
           disconnectUser={disconnectUser} 
          /> : null
       }
-      <Footer />
+      
     </>
   )
 }

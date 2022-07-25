@@ -92,7 +92,6 @@ function ModalLoginUser (props) {
                     </Tab>
                 </Tabs>
             </Container>
-
         <ToastContainer />
       </Modal>
     )

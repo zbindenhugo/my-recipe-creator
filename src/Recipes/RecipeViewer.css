@@ -1,0 +1,21 @@
+#recipe-img{
+    border-radius: 5%;
+    height: 380px;
+}
+
+#recipe-text{
+    text-decoration: underline;
+}
+
+li, #recipe-text {
+    font-size: x-large;
+}
+
+#prepa-title{
+    color: lightcoral !important;
+    text-decoration: underline;
+}
+
+.container{
+    margin-bottom: 60px;
+}

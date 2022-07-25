@@ -2,6 +2,7 @@ import './AllRecipes.css';
 
 import { useState, useEffect } from 'react';
 import { Spinner, Row, Container, Col, Card, Button } from 'react-bootstrap'
+import { Link } from 'react-router-dom';
 
 function AllRecipes () {
 
@@ -60,10 +61,10 @@ function AllRecipes () {
                                             <Card.Text>
                                                 {recipe.description}
                                             </Card.Text>
-                                            <p><small>Écrit par : {recipe.lastname} {recipe.firstname}</small></p>
+                                            <p className='fw-light'><small>Écrit par : {recipe.lastname} {recipe.firstname}</small></p>
                                         </Card.Body>
                                         <Card.Footer>
-                                            <Button variant='outline-dark'>
+                                            <Button as={Link} variant='outline-dark' to={`/recipes/${recipe.id}`}>
                                                 Voir la recette !
                                             </Button>
                                         </Card.Footer>
